@@ -3,11 +3,98 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <title>Vue JS</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <style>
+      .box {
+        display: inline-block;
+        width: 400px;
+        text-align: center;
+        padding: 100px 0;
+        margin: 20px;
+        background-color: #ddd;
+      }
+      img {
+        width: 200px;
+        height: 200px;
+      }
+
+      li.fav {
+        background-color: pink;
+        color: white;
+      }
+    </style>
   </head>
   <body>
     <h1>Hello Vue</h1>
+
+    <div id="app">
+      <!-- ATTRIBUTE BINDING - BINDING DYNAMIC VALUES TO HTML ATTRIBUTES-->
+      <!-- data binding to the respective attribute can also be written directly with : so we are replacing 'v-bind:' as ':'  -->
+      <a v-bind:href="url">atrribute binding url</a>
+      <a :href="url">atrribute binding url</a>
+
+      <!-- V-FOR IS USED AS FOR-IN LOOP OF JS -->
+      <!-- DYNAMIC CLASSES - we pass object inside of this and this is of key value pairs nd for each k-v it will be evaulated of conditional class -->
+      <div v-if="showBooks">
+        <ul>
+          <!-- so instead of books i'll write filteredBooks so as it contains only the isFav=true values -->
+          <li
+            v-for="items in filteredBooks"
+            :class="{fav: items.isFav}"
+            @click="toggleFav(items)"
+          >
+            <img :src="items.img" :alt="items.title" />
+            <h1>{{items.title}}</h1>
+            <p>{{items.author}}</p>
+          </li>
+        </ul>
+      </div>
+
+      <!-- WHEN WE USE V-IF IT REMOVES THE DATA/ELEMENT COMPLETLY FROM THE DOM
+          AND IN V-SHOW IT JUST USES CSS TO HIDE IT FROM THE SCREEN
+      -->
+
+      <button @click="toggleShowBooks">
+        <span v-if="showBooks">Hide Books</span>
+        <!-- <span v-if="!showBooks">Show Books</span> -->
+        <span v-else>Show Books</span>
+      </button>
+
+      <div v-show="showBooks">This is data of v-show</div>
+
+      <button v-on:click="age++">Increase Age</button>
+      <button v-on:click="age-- ">Decrease Age</button>
+
+      <!-- 1. v-on is a directive, all directive starts with v and after hypen(-) it specifies what type of event we want to react to like here we are reacting to onClick event -->
+      <!-- 2 v-if is a directive, used to conditionally evaluate something -->
+
+      <!-- V-[DIRECTIVE] : [TYPE OF EVENT] = "[ANY JS CODE]" -->
+
+      <!-- we can REPLACE 'v-on:' with a shortcut called '@' this will mean the same thing -->
+
+      <!-- 1ST WAY OF ONCLICK IS WRITING JS IN TEMPLATE LIKE BELOW -->
+      <!-- <div @click="title = 'something else'">Change the book name</div> -->
+
+      <!-- 2ND WOULD BE CALLING IT FROM JS FILE ITSELF -->
+      <!-- <div @click="changeTitle">Change the book name</div> -->
+      <div @click="changeTitle('OathBrindger')">Change the book name</div>
+      <div @click="changeTitle('zensikorat')">Change the book name</div>
+
+      <!-- We dont need to write curly braces inside the js code we can write it directly like here we write the 'age' directly || only use braces when we have to output anything -->
+
+      <!-- we can add this event listners in template and also in the js file -->
+
+      <!-- MOUSE EVENTS -->
+      <div class="box" @mouseover="handleEvent($event, 5)">
+        MOUSEOVER [ENTER]
+      </div>
+      <div class="box" @mouseleave="handleEvent">MOUSELEAVE</div>
+      <div class="box" @dblclick="handleEvent">DOUBLE CLICK</div>
+      <div class="box" @mousemove="handleMouseMove">position {{x}} {{y}}</div>
+    </div>
+
     <script src="./app.js"></script>
   </body>
 </html>

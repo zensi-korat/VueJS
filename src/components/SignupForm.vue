@@ -5,9 +5,39 @@
 
     <label>Password:</label>
     <input type="password" required v-model="passModal" />
+
+    <label>Role:</label>
+    <select v-model="roleModal">
+      <option value="developer">Web Developer</option>
+      <option value="designer">Web Designer</option>
+    </select>
+
+    <label>Skills:</label>
+    <input type="text" v-model="tempSkill" @keyup="addSkill" />
+
+    <div class="terms">
+      <input type="checkbox" id="checkbox" v-model="terms" required />
+      <label for="checkbox">Accept Terms and Conditions</label>
+    </div>
+
+    <div>
+      <input type="checkbox" value="shaun" v-model="names" />
+      <label for="shaun">Shaun</label>
+    </div>
+    <div>
+      <input type="checkbox" value="maria" v-model="names" />
+      <label for="">maria</label>
+    </div>
+    <div>
+      <input type="checkbox" value="yoshi" v-model="names" />
+      <label>yoshi</label>
+    </div>
   </form>
   <p>Email: {{ emailModal }}</p>
   <p>Password: {{ passModal }}</p>
+  <p>Role: {{ roleModal }}</p>
+  <p>Terms Accepted: {{ terms }}</p>
+  <p>Names: {{ names }}</p>
 </template>
 
 <script>
@@ -16,6 +46,11 @@ export default {
     return {
       emailModal: "",
       passModal: "",
+      roleModal: "designer",
+      terms: false,
+      names: [],
+      tempSkill: "",
+      skills: [],
     };
   },
 };
@@ -39,7 +74,8 @@ label {
   letter-spacing: 1px;
   font-weight: bold;
 }
-input {
+input,
+select {
   display: block;
   padding: 10px 6px;
   width: 100%;
@@ -47,5 +83,13 @@ input {
   border: none;
   border-bottom: 1px solid #ddd;
   color: #555;
+}
+
+input[type="checkbox"] {
+  display: inline-block;
+  width: 16px;
+  margin: 0 10px 0 0;
+  position: relative;
+  top: 2px;
 }
 </style>

@@ -1,37 +1,95 @@
 <template>
   <h1>Home page</h1>
-  <p>
-    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sed hic quibusdam
-    dicta maiores, dolorum fugiat magnam. Unde sapiente aperiam impedit,
-    quibusdam quos atque culpa consectetur illo eaque veniam magni ipsum,
-    aliquid quo vitae, cupiditate est sunt laboriosam fugit recusandae! Debitis
-    necessitatibus cumque, laborum distinctio eius ea ullam neque odit incidunt
-    unde sunt? At maiores natus assumenda consectetur hic veniam magnam,
-    sapiente deserunt. Provident natus ipsam nihil laudantium. Dolorem harum
-    earum provident, ex alias pariatur aliquam, omnis magni explicabo
-    aspernatur, unde vero inventore minima ea repudiandae cumque aut nulla
-    officiis velit mollitia iste deserunt. Dolor rem unde nobis doloribus maxime
-    fugit.
-  </p>
-  <p>
-    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias
-    voluptate ex pariatur tenetur architecto alias dolor quas consequuntur nemo
-    neque nobis dicta veniam et eveniet corrupti harum mollitia, qui quis odit
-    consectetur, eligendi vero beatae asperiores repellat! Eaque, error
-    cupiditate fuga optio provident in repellat, et blanditiis nam facere esse
-    vero, maiores sapiente tempore labore dolor aliquam quisquam. Dignissimos
-    illum vel saepe a aperiam, ut porro iure corrupti amet adipisci. Maiores sit
-    dolores veritatis facilis, accusantium ab soluta error laudantium ducimus
-    optio laboriosam. Ea, praesentium? Necessitatibus cupiditate magni iste
-    omnis reprehenderit nulla culpa quos. Ratione molestias expedita quo quia
-    facere.
-  </p>
+  <!-- <p ref="para">My name is {{ homeName }} and my age is {{ homeAge }}</p>
+  <button @click="handleClick">Click me</button>
+  <button @click="homeAge++">add 1 to age</button>
+  <input type="text" v-model="homeName" />
+
+  <h2>REFS</h2>
+  <p>{{ refsName.names }} {{ refsName.ages }}</p>
+  <button @click="updateRefs">update refs</button>
+
+  <h2>REACTIVE</h2>
+  <p>{{ reactiveName }} {{ reactiveName }}</p>
+  <button @click="updateReactive">update reactive</button> -->
+  <input type="text" v-model="search" />
+  <p>search term - {{ search }}</p>
+  <div v-for="name in matchingNames" :key="name">{{ name }}</div>
+  <button @click="stopFunction">stop watching</button>
 </template>
 
 <script>
+import { ref, reactive, computed, watch, watchEffect } from "vue";
+
 export default {
   name: "Home",
-  components: {},
+  // components: {},
+  setup() {
+    // console.log(this);
+
+    // // const para = ref(null);
+    // // const name = ref("mario");
+    // const reactiveName = reactive({ names: "luigi", ages: 35 });
+    // const refsName = ref({ names: "unagi", ages: 15 });
+    // const age = ref(30);
+
+    // // let name = "mario";
+    // // let age = 30;
+
+    // const updateReactive = () => {
+    //   reactiveName.ages = 45;
+    //   console.log(reactiveName, reactiveName.names);
+    // };
+    // const updateRefs = () => {
+    //   refsName.value.ages = 5;
+    // };
+
+    // const handleClick = () => {
+    //   // console.log(para, para.value);
+    //   // para.value.classList.add("test");
+    //   // para.value.textContent = "Hello here";
+    //   name.value = "luigi";
+    //   age.value = 35;
+    // };
+    const search = ref("");
+    const names = ref([
+      "mario",
+      "yoshi",
+      "luigi",
+      "toad",
+      "bowser",
+      "koopa",
+      "peach",
+    ]);
+
+    const stopWatch = watch(search, () => {
+      console.log("watch fun runs");
+    });
+
+    const stopEffect = watchEffect(() => {
+      console.log("watcheffect fun runs");
+    });
+    const stopFunction = () => {
+      stopWatch();
+      stopEffect();
+    };
+    const matchingNames = computed(() => {
+      return names.value.filter((name) => name.includes(search.value));
+    });
+    return {
+      // homeName: name,
+      // homeAge: age,
+      // handleClick,
+      // updateReactive,
+      // updateRefs,
+      names,
+      search,
+      matchingNames,
+      stopFunction,
+    };
+  },
+  created() {},
+  mounted() {},
 };
 </script>
 

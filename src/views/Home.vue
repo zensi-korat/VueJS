@@ -1,5 +1,6 @@
 <template>
   <h1>Home page</h1>
+  <PostList :posts="posts" />
   <!-- <p ref="para">My name is {{ homeName }} and my age is {{ homeAge }}</p>
   <button @click="handleClick">Click me</button>
   <button @click="homeAge++">add 1 to age</button>
@@ -12,18 +13,19 @@
   <h2>REACTIVE</h2>
   <p>{{ reactiveName }} {{ reactiveName }}</p>
   <button @click="updateReactive">update reactive</button> -->
-  <input type="text" v-model="search" />
+  <!-- <input type="text" v-model="search" />
   <p>search term - {{ search }}</p>
   <div v-for="name in matchingNames" :key="name">{{ name }}</div>
-  <button @click="stopFunction">stop watching</button>
+  <button @click="stopFunction">stop watching</button> -->
 </template>
 
 <script>
+import PostList from "../components/PostList.vue";
 import { ref, reactive, computed, watch, watchEffect } from "vue";
 
 export default {
   name: "Home",
-  // components: {},
+  components: { PostList },
   setup() {
     // console.log(this);
 
@@ -51,41 +53,46 @@ export default {
     //   name.value = "luigi";
     //   age.value = 35;
     // };
-    const search = ref("");
-    const names = ref([
-      "mario",
-      "yoshi",
-      "luigi",
-      "toad",
-      "bowser",
-      "koopa",
-      "peach",
+    // const search = ref("");
+    // const names = ref([
+    //   "mario",
+    //   "yoshi",
+    //   "luigi",
+    //   "toad",
+    //   "bowser",
+    //   "koopa",
+    //   "peach",
+    // ]);
+
+    // const stopWatch = watch(search, () => {
+    //   console.log("watch fun runs");
+    // });
+
+    // const stopEffect = watchEffect(() => {
+    //   console.log("watcheffect fun runs");
+    // });
+    // const stopFunction = () => {
+    //   stopWatch();
+    //   stopEffect();
+    // };
+    // const matchingNames = computed(() => {
+    //   return names.value.filter((name) => name.includes(search.value));
+    // });
+    const posts = ref([
+      { title: "Welcome to the blog", body: "lorem ipsum", id: 1 },
+      { title: "top 5 css tips", body: "lorem ipsum", id: 2 },
     ]);
-
-    const stopWatch = watch(search, () => {
-      console.log("watch fun runs");
-    });
-
-    const stopEffect = watchEffect(() => {
-      console.log("watcheffect fun runs");
-    });
-    const stopFunction = () => {
-      stopWatch();
-      stopEffect();
-    };
-    const matchingNames = computed(() => {
-      return names.value.filter((name) => name.includes(search.value));
-    });
     return {
       // homeName: name,
       // homeAge: age,
       // handleClick,
       // updateReactive,
       // updateRefs,
-      names,
-      search,
-      matchingNames,
-      stopFunction,
+      // names,
+      // search,
+      // matchingNames,
+      // stopFunction,
+      posts,
     };
   },
   created() {},

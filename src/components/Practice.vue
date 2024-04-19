@@ -17,7 +17,7 @@
   <teleport to=".modals" v-if="showModalTwo">
     <Modal @close="toggleModalTwo">
       <h1>This is a challenge task</h1>
-      <template v-slot:links>
+      <template #:links>
         <h1>This text is inside named slot and used with templates</h1>
       </template>
     </Modal>

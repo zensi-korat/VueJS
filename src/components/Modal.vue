@@ -5,7 +5,7 @@
       <!-- <h1>{{ header }}</h1>
       -->
       <slot>Default Content</slot>
-      <div class="actions">
+      <div class="actions" v-if="$slots.links">
         <slot name="links"></slot>
       </div>
     </div>

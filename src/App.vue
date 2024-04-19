@@ -2,7 +2,7 @@
   <!-- <Practice /> -->
   <!-- <ReactionTimer /> -->
   <!-- <SignupForm /> -->
-  <div id="nav">
+  <!-- <div id="nav">
     <router-link to="/">Home </router-link>
     <router-link :to="{ name: 'About' }">About </router-link>
     <router-link :to="{ name: 'Jobs' }">Jobs </router-link>
@@ -12,6 +12,20 @@
   <button @click="redirect">Redirect</button>
   <button @click="back">Go back</button>
   <button @click="forward">Go forward</button>
+
+  <NewFriend @add-contact="addContact"></NewFriend>
+
+  <Friends
+    v-for="friend in friends"
+    :key="friend.id"
+    :id="friend.id"
+    :name="friend.name"
+    :phone-number="friend.phone"
+    :email-address="friend.email"
+    :is-favorite="friend.isFavorite"
+    @toggle-favorite="toggleFavoriteStatus"
+    @delete="deleteContact"
+  /> -->
 
   <!-- :style="{ borderColor: btnASelected ? 'red' : 'yellow' }" -->
   <!-- :class="btnASelected ? 'demo active' : 'demo'" -->
@@ -32,8 +46,9 @@
     </p>
   </div> -->
 
-  <router-view />
+  <!-- <router-view /> -->
   <!-- same as of outlet in react -->
+  <h1></h1>
 </template>
 
 <script>
@@ -41,10 +56,19 @@ import Practice from "./components/Practice.vue";
 import Block from "./components/Block.vue";
 import ReactionTimer from "./components/ReactionTimer.vue";
 import SignupForm from "./components/SignupForm.vue";
+import Friends from "./views/Friends.vue";
+import NewFriend from "./components/NewFriend.vue";
 
 export default {
   name: "App",
-  components: { Practice, Block, ReactionTimer, SignupForm },
+  components: {
+    Practice,
+    Block,
+    ReactionTimer,
+    SignupForm,
+    Friends,
+    NewFriend,
+  },
   methods: {
     redirect() {
       this.$router.push({ name: "Home" });
@@ -68,6 +92,26 @@ export default {
     btn() {
       console.log("selectedd");
     },
+    toggleFavoriteStatus(friendId) {
+      const indentifiedFriend = this.friends.find(
+        (friend) => friend.id === friendId
+      );
+      indentifiedFriend.isFavorite = !indentifiedFriend.isFavorite;
+    },
+    addContact(name, phone, email) {
+      const newFriendContact = {
+        id: new Date().toISOString(),
+        //  property defined here: argument passed
+        name: name,
+        phone: phone,
+        email: email,
+        isFavorite: false,
+      };
+      this.friends.push(newFriendContact);
+    },
+    deleteContact(friendId) {
+      this.friends = this.friends.filter((friend) => friend.id !== friendId);
+    },
   },
 
   computed: {
@@ -78,9 +122,25 @@ export default {
 
   data() {
     return {
-      btnASelected: false,
-      btnBSelected: false,
-      btnCSelected: false,
+      // btnASelected: false,
+      // btnBSelected: false,
+      // btnCSelected: false,
+      friends: [
+        {
+          id: "manuel",
+          name: "Manuel Lorenz",
+          phone: "0123 45678 90",
+          email: "manuel@localhost.com",
+          isFavorite: true,
+        },
+        {
+          id: "julie",
+          name: "julie Lorenz",
+          phone: "0123 45678 90",
+          email: "julie@localhost.com",
+          isFavorite: false,
+        },
+      ],
     };
   },
 };

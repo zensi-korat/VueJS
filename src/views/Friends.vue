@@ -1,11 +1,15 @@
 <template>
   <ul>
-    <li v-for="friend in friends" :key="friend">
-      <h2>{{ friend.name }}</h2>
-      <button>Show Detials</button>
-      <ul>
-        <li><strong>Phone</strong>{{ friend.phone }}</li>
-        <li><strong>Email:</strong>{{ friend.email }}</li>
+    <li>
+      <h2>{{ name }} {{ isFavorite ? "(Favorite)" : "" }}</h2>
+      <button @click="toggleDetails">
+        {{ detailsAreVisible ? "Hide" : "Show" }} Details
+      </button>
+      <button @click="toggleFavorite">Toggle favorite</button>
+      <ul v-if="detailsAreVisible">
+        <li><strong>Phone:</strong>{{ phoneNumber }}</li>
+        <li><strong>Email:</strong>{{ emailAddress }}</li>
+        <button @click="$emit('delete', id)">Delete</button>
       </ul>
     </li>
   </ul>
@@ -13,23 +17,55 @@
 
 <script>
 export default {
+  //   props: ["name", "phoneNumber", "emailAddress", "isFavorite"],
+  props: {
+    // name: String,
+    id: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: false,
+    },
+    phoneNumber: {
+      type: String,
+      required: false,
+    },
+    emailAddress: {
+      type: String,
+      required: false,
+    },
+    isFavorite: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  emits: ["toggle-favorite", "delete"],
+  // emits: {
+  //   "toggle-favorite": function (id) {
+  //     if (id) {
+  //       return true;
+  //     } else {
+  //       console.warn("Id is missing!");
+  //       return false;
+  //     }
+  //   },
+  // },
   data() {
     return {
-      friends: [
-        {
-          id: "manuel",
-          name: "Manuel Lorenz",
-          phone: "01234 5678 90",
-          email: "manuel@localhost.com",
-        },
-        {
-          id: "julie",
-          name: "Julie Lorenz",
-          phone: "01234 5678 90",
-          email: "julie@localhost.com",
-        },
-      ],
+      detailsAreVisible: false,
     };
+  },
+  methods: {
+    toggleDetails() {
+      this.detailsAreVisible = !this.detailsAreVisible;
+    },
+    toggleFavorite() {
+      //   this.friendIsFavorite = !this.friendIsFavorite;
+      this.$emit("toggle-favorite", this.id);
+    },
   },
 };
 </script>
